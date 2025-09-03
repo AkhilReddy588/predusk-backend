@@ -36,5 +36,4 @@ const limiter = rateLimit({
 
 app.use(limiter);
 
-const PORT = process.env.PORT
 module.exports.handler = serverless(app);
