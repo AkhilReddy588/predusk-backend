@@ -5,6 +5,7 @@ const dotenv = require('dotenv').config()
 const authRoutes = require('./routes/authRoutes')
 const profileRoutes = require('./routes/profileRoutes')
 const rateLimit = require("express-rate-limit")
+const { ipKeyGenerator } = require("express-rate-limit");
 const morgan = require("morgan")
 const cors = require("cors")
 const serverless = require('serverless-http');
@@ -34,15 +35,16 @@ const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 100,
   message: { message: "Too many requests, please try again later." },
-  keyGenerator: (req) => {
+  keyGenerator: (req, res) => {
+    // IPv6 safe way
     const forwarded = req.headers["x-forwarded-for"];
     if (forwarded) {
-      return forwarded.split(",")[0]; // use client IP
+      return forwarded.split(",")[0]; // first IP in list
     }
-    return req.ip || "unknown";
-  }
+    return ipKeyGenerator(req); // ensures IPv6 works correctly
+  },
 });
 
 app.use(limiter);
 
-module.exports = serverless(app);
+module.exports.handler = serverless(app);
