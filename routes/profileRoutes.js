@@ -11,4 +11,9 @@ router.get('/skills', auth, getSkills)
 router.patch("/skills", auth, addSkill)
 router.patch("/projects", auth, addProject)
 
+router.get("/test", (req, res) => {
+  console.log("✅ Test route hit");
+  res.json({ message: "Server is working fine" });
+});
+
 module.exports = router
