@@ -46,5 +46,5 @@ const limiter = rateLimit({
 });
 
 app.use(limiter);
-
-module.exports = serverless(app);
+const PORT = 3000
+app.listen(PORT, () => {console.log('server is running on port 3000')})
