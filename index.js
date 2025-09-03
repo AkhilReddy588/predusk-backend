@@ -47,4 +47,4 @@ const limiter = rateLimit({
 
 app.use(limiter);
 
-module.exports.handler = serverless(app);
+module.exports = serverless(app);
