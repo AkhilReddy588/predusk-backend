@@ -31,8 +31,15 @@ app.get("/api/health", (req, res) => res.send("API is running..."))
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100,                 // limit each IP to 100 requests per window
-  message: { message: "Too many requests, please try again later." }
+  max: 100,
+  message: { message: "Too many requests, please try again later." },
+  keyGenerator: (req) => {
+    const forwarded = req.headers["x-forwarded-for"];
+    if (forwarded) {
+      return forwarded.split(",")[0]; // use client IP
+    }
+    return req.ip || "unknown";
+  }
 });
 
 app.use(limiter);
