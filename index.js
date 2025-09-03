@@ -8,7 +8,6 @@ const rateLimit = require("express-rate-limit")
 const { ipKeyGenerator } = require("express-rate-limit");
 const morgan = require("morgan")
 const cors = require("cors")
-const serverless = require('serverless-http');
 
 dbConnect()
 
