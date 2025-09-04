@@ -14,7 +14,7 @@ dbConnect()
 const app = express()
 app.set("trust proxy", 1);
 app.use(cors({
-  origin: "http://localhost:5173",
+  origin: ["http://localhost:5173", "https://predusk-frontend.vercel.app"],
   credentials: true 
 }))
 app.use((req, res, next) => {
