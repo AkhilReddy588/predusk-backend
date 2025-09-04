@@ -24,6 +24,13 @@ app.use((req, res, next) => {
 app.use(bodyParser.json())
 app.use(express.json())
 app.use(morgan("dev")) //logging
+app.use((req, res, next) => {
+  res.setHeader(
+    "Content-Security-Policy",
+    "script-src 'self' https://predusk-frontend.vercel.app 'wasm-unsafe-eval' 'inline-speculation-rules';"
+  );
+  next();
+});
 
 app.use('/api/auth', authRoutes)
 app.use('/api/profile', profileRoutes)
